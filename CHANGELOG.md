@@ -9,9 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.2.1...HEAD)
+## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.3.0...HEAD)
 
 No notable changes have been made.
+
+
+## [0.3.0](https://github.com/bbugyi200/potoroo/compare/0.2.1...0.3.0) - 2022-01-15
+
+### Changed
+
+* *BREAKING CHANGE*: Split `Repository` type into `BasicRepo`, `Repo`, and `TaggedRepo`.
 
 
 ## [0.2.1](https://github.com/bbugyi200/potoroo/compare/0.2.0...0.2.1) - 2022-01-15

@@ -2,10 +2,10 @@
 
 import logging as _logging
 
-from ._core import Repository
+from ._repo import BasicRepo, Repo, TaggedRepo
 
 
-__all__ = ["Repository"]
+__all__ = ["BasicRepo", "Repo", "TaggedRepo"]
 
 __author__ = "Bryan M Bugyi"
 __email__ = "bryanbugyi34@gmail.com"
