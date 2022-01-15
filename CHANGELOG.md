@@ -9,9 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.2.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.2.1...HEAD)
 
 No notable changes have been made.
+
+
+## [0.2.1](https://github.com/bbugyi200/potoroo/compare/0.2.0...0.2.1) - 2022-01-15
+
+### Fixed
+
+* Switch the positions of the type variables used in the `Repository` generic.
 
 
 ## [0.2.0](https://github.com/bbugyi200/potoroo/compare/0.1.0...0.2.0) - 2022-01-15

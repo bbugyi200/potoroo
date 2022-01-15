@@ -7,7 +7,7 @@ from eris import ErisResult, Ok
 from potoroo import Repository
 
 
-class FakeDB(Repository[str, int]):
+class FakeDB(Repository[int, str]):
     """Fake database."""
 
     def __init__(self) -> None:

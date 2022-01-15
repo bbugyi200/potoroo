@@ -12,11 +12,11 @@ from typing import Generic, TypeVar
 from eris import ErisResult
 
 
-T = TypeVar("T")
 K = TypeVar("K")
+V = TypeVar("V")
 
 
-class Repository(Generic[T, K], abc.ABC):
+class Repository(Generic[K, V], abc.ABC):
     """A persistance pattern meant to abstract away data acess details.
 
     See https://deviq.com/design-patterns/repository-pattern/ for more
@@ -24,17 +24,17 @@ class Repository(Generic[T, K], abc.ABC):
     """
 
     @abc.abstractmethod
-    def add(self, item: T) -> ErisResult[K]:
+    def add(self, item: V) -> ErisResult[K]:
         """Add a new `item` to the repo and associsate it with `key`."""
 
     @abc.abstractmethod
-    def get(self, key: K) -> ErisResult[T | None]:
+    def get(self, key: K) -> ErisResult[V | None]:
         """Retrieve an item from the repo by key."""
 
     @abc.abstractmethod
-    def remove(self, key: K) -> ErisResult[T | None]:
+    def remove(self, key: K) -> ErisResult[V | None]:
         """Remove an item from the repo by key."""
 
     @abc.abstractmethod
-    def update(self, key: K, item: T) -> ErisResult[T]:
+    def update(self, key: K, item: V) -> ErisResult[V]:
         """Update an item by key."""
