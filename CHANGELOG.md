@@ -9,9 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.3.1...HEAD)
+## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.3.2...HEAD)
 
 No notable changes have been made.
+
+
+## [0.3.1](https://github.com/bbugyi200/potoroo/compare/0.3.1...0.3.2) - 2022-01-17
+
+### Fixed
+
+* Remove `U` generic type variable from `UnitOfWork` class
 
 
 ## [0.3.1](https://github.com/bbugyi200/potoroo/compare/0.3.0...0.3.1) - 2022-01-17

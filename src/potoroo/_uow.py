@@ -13,7 +13,7 @@ R = TypeVar("R", bound=BasicRepo)
 U = TypeVar("U", bound="UnitOfWork")
 
 
-class UnitOfWork(Generic[R, U], abc.ABC):
+class UnitOfWork(Generic[R], abc.ABC):
     """Implements the 'Unit-of-Work' persistance pattern."""
 
     @property
