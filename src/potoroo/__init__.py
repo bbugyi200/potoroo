@@ -10,6 +10,6 @@ __all__ = ["BasicRepo", "Repo", "TaggedRepo", "UnitOfWork"]
 
 __author__ = "Bryan M Bugyi"
 __email__ = "bryanbugyi34@gmail.com"
-__version__ = "0.3.2"
+__version__ = "0.4.0"
 
 _logging.getLogger(__name__).addHandler(_logging.NullHandler())
