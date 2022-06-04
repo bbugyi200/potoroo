@@ -33,6 +33,10 @@ class FakeDB(Repo[int, str]):
         self._db[key] = some_item
         return Ok(some_item)
 
+    def all(self) -> ErisResult[list[str]]:
+        """Fake all."""
+        return Ok(sorted(self._db.values()))
+
 
 class FakeTaggedDB(FakeDB, TaggedRepo[int, str, str]):
     """Fake tagged database."""
@@ -68,4 +72,5 @@ def test_tagged_repo() -> None:
 
     assert db.get(foo_idx).unwrap() == "foo"
     assert db.get_by_tag("f").unwrap() == ["foo"]
+    assert db.all().unwrap() == ["bar", "baz", "foo"]
     assert db.remove_by_tag("b").unwrap() == ["bar", "baz"]

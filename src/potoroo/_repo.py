@@ -28,7 +28,8 @@ class BasicRepo(Generic[K, V], abc.ABC):
 class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
     """A full-featured Repository
 
-    Adds the ability to update and delete ontop of the BasicRepo type.
+    Adds the ability to update, delete, and list all items ontop of the
+    BasicRepo type.
     """
 
     @abc.abstractmethod
@@ -44,6 +45,10 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
         self.add(item, key=key).unwrap()
 
         return Ok(old_item)
+
+    @abc.abstractmethod
+    def all(self) -> ErisResult[list[V]]:
+        """Retrieve all items stored in this repo."""
 
 
 class TaggedRepo(Repo[K, V], Generic[K, V, T], abc.ABC):
