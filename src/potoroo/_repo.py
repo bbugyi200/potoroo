@@ -5,7 +5,7 @@ from __future__ import annotations
 import abc
 from typing import Generic, TypeVar
 
-from eris import ErisResult
+from eris import ErisResult, Err, Ok
 
 
 K = TypeVar("K")
@@ -35,9 +35,15 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
     def remove(self, key: K) -> ErisResult[V | None]:
         """Remove an item from the repo by key."""
 
-    @abc.abstractmethod
     def update(self, key: K, item: V, /) -> ErisResult[V]:
         """Update an item by key."""
+        old_item = self.remove(key).unwrap()
+        if old_item is None:
+            return Err(f"Old Todo with this ID does not exist. | id={key}")
+
+        self.add(item, key=key).unwrap()
+
+        return Ok(old_item)
 
 
 class TaggedRepo(Repo[K, V], Generic[K, V, T], abc.ABC):
