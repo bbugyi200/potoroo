@@ -38,9 +38,16 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
 
     def update(self, key: K, item: V, /) -> ErisResult[V]:
         """Update an item by key."""
-        old_item = self.remove(key).unwrap()
+        old_item_result = self.remove(key)
+        if isinstance(old_item_result, Err):
+            err: Err = Err(
+                "An error occurred while removing the old item."
+            ).chain(old_item_result)
+            return err
+
+        old_item = old_item_result.ok()
         if old_item is None:
-            return Err(f"Old Todo with this ID does not exist. | id={key}")
+            return Err(f"Old item with this ID does not exist. | id={key}")
 
         self.add(item, key=key).unwrap()
 
