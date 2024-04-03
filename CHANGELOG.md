@@ -9,9 +9,17 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.4.1...HEAD)
+## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.5.0...HEAD)
 
 No notable changes have been made.
+
+
+## [0.5.0](https://github.com/bbugyi200/potoroo/compare/0.4.1...0.5.0) - 2024-04-03
+
+### Changed
+
+* *BREAKING CHANGE*: Implement `remove_by_tag()` and `remove_by_key()` and
+  change remove() to accept item.
 
 
 ## [0.4.1](https://github.com/bbugyi200/potoroo/compare/0.4.0...0.4.1) - 2022-06-04
