@@ -46,6 +46,7 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
             return err
 
         item = item_result.ok()
+        assert item is not None
         return self.remove(item)
 
     def update(self, key: K, item: V, /) -> ErisResult[V]:
@@ -87,24 +88,26 @@ class TaggedRepo(Repo[K, V], Generic[K, V, T], abc.ABC):
     def remove_by_tag(self, tag: T) -> ErisResult[list[V]]:
         """Remove a group of items that meet the given tag's criteria."""
         items_result = self.get_by_tag(tag)
+        err: Optional[Err] = None
         if isinstance(items_result, Err):
-            err: Err = Err(
+            err = Err(
                 "An error occurred while fetching items to be removed by tag."
             ).chain(items_result)
             return err
 
-        deleted_items = []
+        deleted_items: list[V] = []
         items = items_result.ok()
-        other_items = items.copy()
         for item in items:
-            item_result = self.remove(item)
+            deleted_item_result = self.remove(item)
             other_items = set(items) - set(deleted_items)
-            if isinstance(item_result, Err):
-                err: Err = Err(
+            if isinstance(deleted_item_result, Err):
+                err = Err(
                     "An error occurred while removing item |"
                     f" {item=} {deleted_items=} {other_items=}"
                 )
                 return err
-            deleted_items.append(item_result.ok())
+            deleted_item = deleted_item_result.ok()
+            assert deleted_item is not None
+            deleted_items.append(deleted_item)
 
         return Ok(deleted_items)
