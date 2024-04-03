@@ -13,8 +13,8 @@ _version badges:_
 
 [![Project Version](https://img.shields.io/pypi/v/potoroo)](https://pypi.org/project/potoroo/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/potoroo)](https://pypi.org/project/potoroo/)
-[![Cookiecutter: cc-python](https://img.shields.io/static/v1?label=cc-python&message=2022.01.04&color=d4aa00&logo=cookiecutter&logoColor=d4aa00)](https://github.com/python-boltons/cc-python)
-[![Docker: pythonboltons/main](https://img.shields.io/static/v1?label=pythonboltons%20%2F%20main&message=2021.12.22&color=8ec4ad&logo=docker&logoColor=8ec4ad)](https://github.com/python-boltons/docker-python)
+[![Cookiecutter: cc-python](https://img.shields.io/static/v1?label=cc-python&message=2024.01.16-4&color=d4aa00&logo=cookiecutter&logoColor=d4aa00)](https://github.com/python-boltons/cc-python)
+[![Docker: pythonboltons/main](https://img.shields.io/static/v1?label=pythonboltons%20%2F%20main&message=2024.01.16&color=8ec4ad&logo=docker&logoColor=8ec4ad)](https://github.com/python-boltons/docker-python)
 
 
 ## Installation 🗹
@@ -69,3 +69,4 @@ if any(L.strip() for L in lines):
 [11]: https://github.com/pypa/pipx
 [12]: https://github.com/cruft/cruft
 [13]: https://github.com/bbugyi200/potoroo/issues/new/choose
+[14]: https://pypi.org/project/cogapp/
