@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import abc
-from typing import Generic, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from eris import ErisResult, Err, Ok
 
@@ -21,7 +21,7 @@ class BasicRepo(Generic[K, V], abc.ABC):
         """Add a new `item` to the repo and associsate it with `key`."""
 
     @abc.abstractmethod
-    def get(self, key: K) -> ErisResult[V | None]:
+    def get(self, key: K) -> ErisResult[Optional[V]]:
         """Retrieve an item from the repo by key."""
 
 
@@ -33,8 +33,20 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
     """
 
     @abc.abstractmethod
-    def remove(self, key: K) -> ErisResult[V | None]:
+    def remove(self, item: V, /) -> ErisResult[Optional[V]]:
+        """Remove an item from the repo."""
+
+    def remove_by_key(self, key: K) -> ErisResult[Optional[V]]:
         """Remove an item from the repo by key."""
+        item_result = self.get(key)
+        if isinstance(item_result, Err):
+            err: Err = Err(
+                "An error occurred while fetching the item to be removed."
+            ).chain(item_result)
+            return err
+
+        item = item_result.ok()
+        return self.remove(item)
 
     def update(self, key: K, item: V, /) -> ErisResult[V]:
         """Update an item by key."""
@@ -72,6 +84,27 @@ class TaggedRepo(Repo[K, V], Generic[K, V, T], abc.ABC):
     def get_by_tag(self, tag: T) -> ErisResult[list[V]]:
         """Retrieve a group of items that meet the given tag's criteria."""
 
-    @abc.abstractmethod
     def remove_by_tag(self, tag: T) -> ErisResult[list[V]]:
         """Remove a group of items that meet the given tag's criteria."""
+        items_result = self.get_by_tag(tag)
+        if isinstance(items_result, Err):
+            err: Err = Err(
+                "An error occurred while fetching items to be removed by tag."
+            ).chain(items_result)
+            return err
+
+        deleted_items = []
+        items = items_result.ok()
+        other_items = items.copy()
+        for item in items:
+            item_result = self.remove(item)
+            other_items = set(items) - set(deleted_items)
+            if isinstance(item_result, Err):
+                err: Err = Err(
+                    "An error occurred while removing item |"
+                    f" {item=} {deleted_items=} {other_items=}"
+                )
+                return err
+            deleted_items.append(item_result.ok())
+
+        return Ok(deleted_items)
