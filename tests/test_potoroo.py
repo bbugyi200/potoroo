@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from eris import ErisResult, Ok
+from eris import ErisResult, Err, Ok
 
 from potoroo import Repo, TaggedRepo
 
@@ -24,14 +24,16 @@ class FakeDB(Repo[int, str]):
         """Fake get."""
         return Ok(self._db[key])
 
-    def remove(self, key: int) -> ErisResult[str | None]:
+    def remove(self, item: str) -> ErisResult[str | None]:
         """Fake remove."""
-        return Ok(self._db.pop(key))
-
-    def update(self, key: int, some_item: str, /) -> ErisResult[str]:
-        """Fake update."""
-        self._db[key] = some_item
-        return Ok(some_item)
+        item_key = None
+        for key, value in self._db.items():
+            if value == item:
+                item_key = key
+                break
+        else:
+            return Err(f"Unable to find item | {item=}")
+        return Ok(self._db.pop(item_key))
 
     def all(self) -> ErisResult[list[str]]:
         """Fake all."""
@@ -45,22 +47,16 @@ class FakeTaggedDB(FakeDB, TaggedRepo[int, str, str]):
         """Fake get_by_tag."""
         return Ok([v for v in self._db.values() if tag in v])
 
-    def remove_by_tag(self, tag: str) -> ErisResult[list[str]]:
-        """Fake remove_by_tag."""
-        res: list[str] = []
-        for k, v in dict(self._db).items():
-            if tag in v:
-                res.append(self._db.pop(k))
-        return Ok(res)
-
 
 def test_repo() -> None:
     """Test the Repo type."""
     db = FakeDB()
     foo_idx = db.add("foo").unwrap()
+    baz_idx = db.add("baz").unwrap()
     assert db.get(foo_idx).unwrap() == "foo"
-    assert db.update(foo_idx, "bar").unwrap() == "bar"
-    assert db.remove(foo_idx).unwrap() == "bar"
+    assert db.update(foo_idx, "bar").unwrap() == "foo"
+    assert db.remove("bar").unwrap() == "bar"
+    assert db.remove_by_key(baz_idx).unwrap() == "baz"
 
 
 def test_tagged_repo() -> None:

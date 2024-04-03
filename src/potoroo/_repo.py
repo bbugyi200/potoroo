@@ -50,7 +50,7 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
 
     def update(self, key: K, item: V, /) -> ErisResult[V]:
         """Update an item by key."""
-        old_item_result = self.remove(key)
+        old_item_result = self.remove_by_key(key)
         if isinstance(old_item_result, Err):
             err: Err = Err(
                 "An error occurred while removing the old item."
