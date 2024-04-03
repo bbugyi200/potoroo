@@ -24,7 +24,7 @@ class FakeDB(Repo[int, str]):
         """Fake get."""
         return Ok(self._db[key])
 
-    def remove(self, item: str) -> ErisResult[str | None]:
+    def remove(self, item: str, /) -> ErisResult[str | None]:
         """Fake remove."""
         item_key = None
         for key, value in self._db.items():
