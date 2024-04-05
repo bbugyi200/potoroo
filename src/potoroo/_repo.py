@@ -10,7 +10,7 @@ from eris import ErisResult, Err, Ok
 
 K = TypeVar("K")
 V = TypeVar("V")
-T = TypeVar("T")
+Q = TypeVar("Q")
 
 
 class BasicRepo(Generic[K, V], abc.ABC):
@@ -71,27 +71,28 @@ class Repo(BasicRepo[K, V], Generic[K, V], abc.ABC):
         """Retrieve all items stored in this repo."""
 
 
-class TaggedRepo(Repo[K, V], Generic[K, V, T], abc.ABC):
-    """A Repository that is aware of some kind of "tags".
+class QueryRepo(Repo[K, V], Generic[K, V, Q], abc.ABC):
+    """A Repository that is aware of some kind of "querys".
 
     Adds the ability to retrieve / delete a group of objects based off of some
-    arbitrary "tag" type.
+    arbitrary "query" type.
 
-    NOTE: In general, K can be expected to be a primitive type, whereas T is
+    NOTE: In general, K can be expected to be a primitive type, whereas Q is
       often a custom user-defined type.
     """
 
     @abc.abstractmethod
-    def get_by_tag(self, tag: T) -> ErisResult[list[V]]:
-        """Retrieve a group of items that meet the given tag's criteria."""
+    def get_by_query(self, query: Q) -> ErisResult[list[V]]:
+        """Retrieve a group of items that meet the given query's criteria."""
 
-    def remove_by_tag(self, tag: T) -> ErisResult[list[V]]:
-        """Remove a group of items that meet the given tag's criteria."""
-        items_result = self.get_by_tag(tag)
+    def remove_by_query(self, query: Q) -> ErisResult[list[V]]:
+        """Remove a group of items that meet the given query's criteria."""
+        items_result = self.get_by_query(query)
         err: Optional[Err] = None
         if isinstance(items_result, Err):
             err = Err(
-                "An error occurred while fetching items to be removed by tag."
+                "An error occurred while fetching items to be removed by"
+                " query."
             ).chain(items_result)
             return err
 

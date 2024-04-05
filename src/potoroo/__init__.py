@@ -2,11 +2,11 @@
 
 import logging as _logging
 
-from ._repo import BasicRepo, Repo, TaggedRepo
+from ._repo import BasicRepo, QueryRepo, Repo
 from ._uow import UnitOfWork
 
 
-__all__ = ["BasicRepo", "Repo", "TaggedRepo", "UnitOfWork"]
+__all__ = ["BasicRepo", "Repo", "QueryRepo", "UnitOfWork"]
 
 __author__ = "Bryan M Bugyi"
 __email__ = "bryanbugyi34@gmail.com"

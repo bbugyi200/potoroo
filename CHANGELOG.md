@@ -9,9 +9,18 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning]: https://semver.org/
 
 
-## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.5.0...HEAD)
+## [Unreleased](https://github.com/bbugyi200/potoroo/compare/0.6.0...HEAD)
 
 No notable changes have been made.
+
+
+## [0.6.0](https://github.com/bbugyi200/potoroo/compare/0.5.0...0.6.0) - 2024-04-05
+
+### Changed
+
+* *BREAKING CHANGE*: Renamed `get_by_tag()` to `get_by_query()`.
+* *BREAKING CHANGE*: Renamed `remove_by_tag()` to `remove_by_query()`.
+* *BREAKING CHANGE*: Renamed `TaggedRepo` to `QueryRepo`.
 
 
 ## [0.5.0](https://github.com/bbugyi200/potoroo/compare/0.4.1...0.5.0) - 2024-04-03

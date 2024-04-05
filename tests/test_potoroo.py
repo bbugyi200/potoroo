@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from eris import ErisResult, Err, Ok
 
-from potoroo import Repo, TaggedRepo
+from potoroo import QueryRepo, Repo
 
 
-class FakeDB(Repo[int, str]):
+class FakeRepo(Repo[int, str]):
     """Fake database."""
 
     def __init__(self) -> None:
@@ -40,33 +40,33 @@ class FakeDB(Repo[int, str]):
         return Ok(sorted(self._db.values()))
 
 
-class FakeTaggedDB(FakeDB, TaggedRepo[int, str, str]):
-    """Fake tagged database."""
+class FakeQueryRepo(FakeRepo, QueryRepo[int, str, str]):
+    """Fake query repository."""
 
-    def get_by_tag(self, tag: str) -> ErisResult[list[str]]:
-        """Fake get_by_tag."""
-        return Ok([v for v in self._db.values() if tag in v])
+    def get_by_query(self, query: str) -> ErisResult[list[str]]:
+        """Fake get_by_query."""
+        return Ok([v for v in self._db.values() if query in v])
 
 
 def test_repo() -> None:
     """Test the Repo type."""
-    db = FakeDB()
-    foo_idx = db.add("foo").unwrap()
-    baz_idx = db.add("baz").unwrap()
-    assert db.get(foo_idx).unwrap() == "foo"
-    assert db.update(foo_idx, "bar").unwrap() == "foo"
-    assert db.remove("bar").unwrap() == "bar"
-    assert db.remove_by_key(baz_idx).unwrap() == "baz"
+    repo = FakeRepo()
+    foo_idx = repo.add("foo").unwrap()
+    baz_idx = repo.add("baz").unwrap()
+    assert repo.get(foo_idx).unwrap() == "foo"
+    assert repo.update(foo_idx, "bar").unwrap() == "foo"
+    assert repo.remove("bar").unwrap() == "bar"
+    assert repo.remove_by_key(baz_idx).unwrap() == "baz"
 
 
-def test_tagged_repo() -> None:
-    """Test the TaggedRepo type."""
-    db = FakeTaggedDB()
-    foo_idx = db.add("foo").unwrap()
-    db.add("bar").unwrap()
-    db.add("baz").unwrap()
+def test_query_repo() -> None:
+    """Test the QueryRepo type."""
+    repo = FakeQueryRepo()
+    foo_idx = repo.add("foo").unwrap()
+    repo.add("bar").unwrap()
+    repo.add("baz").unwrap()
 
-    assert db.get(foo_idx).unwrap() == "foo"
-    assert db.get_by_tag("f").unwrap() == ["foo"]
-    assert db.all().unwrap() == ["bar", "baz", "foo"]
-    assert db.remove_by_tag("b").unwrap() == ["bar", "baz"]
+    assert repo.get(foo_idx).unwrap() == "foo"
+    assert repo.get_by_query("f").unwrap() == ["foo"]
+    assert repo.all().unwrap() == ["bar", "baz", "foo"]
+    assert repo.remove_by_query("b").unwrap() == ["bar", "baz"]
